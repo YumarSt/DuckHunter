@@ -11,5 +11,5 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setTitle("Duck Hunter");
 		new Lwjgl3Application(new DuckHunter(), config);
-	}
+	}//hello
 }
