@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
 		config.setWindowedMode((int) SCR_WIDTH, (int) SCR_HEIGHT);
-		config.setTitle("Crazy Mosquitos");
+		config.setTitle("DuckHunter");
 		new Lwjgl3Application(new MyGdxGame(), config);
 	}
 }
