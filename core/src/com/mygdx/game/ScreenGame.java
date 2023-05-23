@@ -32,7 +32,7 @@ public class ScreenGame implements Screen {
     MosButton btnExit;
 
     // создаём массив ссылок на объекты комаров
-    Mosquito[] komar = new Mosquito[10];
+    Duck[] ducks = new Duck[10];
     int kills;
 
     // переменные для работы с таймером
@@ -89,13 +89,13 @@ public class ScreenGame implements Screen {
             mgg.touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             mgg.camera.unproject(mgg.touch);
             if(situation == PLAY_GAME) {
-                for (int i = komar.length - 1; i >= 0; i--) {
-                    if (komar[i].isAlive && komar[i].hit(mgg.touch.x, mgg.touch.y)) {
+                for (int i = ducks.length - 1; i >= 0; i--) {
+                    if (ducks[i].isAlive && ducks[i].hit(mgg.touch.x, mgg.touch.y)) {
                         kills++;
                         if (soundOn) {
                             sndKomar[MathUtils.random(0, 1)].play();
                         }
-                        if (kills == komar.length) {
+                        if (kills == ducks.length) {
                             situation = ENTER_NAME;
                         }
                         break;
@@ -123,8 +123,8 @@ public class ScreenGame implements Screen {
         }
 
         // события игры
-        for(int i=0; i<komar.length; i++) {
-            komar[i].fly();
+        for(int i = 0; i< ducks.length; i++) {
+            ducks[i].fly();
         }
         if(situation == PLAY_GAME) {
             timeCurrently = TimeUtils.millis() - timeStartGame;
@@ -135,8 +135,8 @@ public class ScreenGame implements Screen {
         mgg.batch.setProjectionMatrix(mgg.camera.combined);
         mgg.batch.begin();
         mgg.batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        for(int i=0; i<komar.length; i++) {
-            mgg.batch.draw(imgKomar[komar[i].faza], komar[i].x, komar[i].y, komar[i].width, komar[i].height, 0, 0, 500, 500, komar[i].isFlip(), false);
+        for(int i = 0; i< ducks.length; i++) {
+            mgg.batch.draw(imgKomar[ducks[i].faza], ducks[i].x, ducks[i].y, ducks[i].width, ducks[i].height, 0, 0, 500, 500, ducks[i].isFlip(), !ducks[i].isAlive);
         }
         mgg.batch.draw(imgBtnExit, btnExit.x, btnExit.y, btnExit.width, btnExit.height);
 
@@ -163,8 +163,8 @@ public class ScreenGame implements Screen {
         situation = PLAY_GAME;
         kills = 0;
         // создаём объекты комаров
-        for(int i=0; i<komar.length; i++){
-            komar[i] = new Mosquito();
+        for(int i = 0; i< ducks.length; i++){
+            ducks[i] = new Duck();
         }
         // включаем музыку
         if(musicOn) {
