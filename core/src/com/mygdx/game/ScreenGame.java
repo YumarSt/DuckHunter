@@ -22,6 +22,7 @@ public class ScreenGame implements Screen {
     //Texture imgBtnPause, imgBtnPlay;
 
     Sound[] sndDuck = new Sound[2];
+    Sound sndShot;
     Music sndMusic;
 
     // логические переменные
@@ -63,6 +64,7 @@ public class ScreenGame implements Screen {
         for(int i = 0; i< sndDuck.length; i++) {
             sndDuck[i] = Gdx.audio.newSound(Gdx.files.internal("krya"+i+".mp3"));
         }
+        sndShot = Gdx.audio.newSound(Gdx.files.internal("huntergun.mp3"));
         sndMusic = Gdx.audio.newMusic(Gdx.files.internal("prud.mp3"));
         sndMusic.setLooping(true);
         sndMusic.setVolume(0.1f);
@@ -88,6 +90,7 @@ public class ScreenGame implements Screen {
             mgg.touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             mgg.camera.unproject(mgg.touch);
             if(situation == PLAY_GAME) {
+                if(soundOn) sndShot.play();
                 for (int i = ducks.length - 1; i >= 0; i--) {
                     if (ducks[i].isAlive && ducks[i].hit(mgg.touch.x, mgg.touch.y)) {
                         kills++;
