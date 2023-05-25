@@ -15,13 +15,13 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class ScreenGame implements Screen {
     MyGdxGame mgg;
 
-    Texture[] imgKomar = new Texture[55]; // ссылки на изображения
+    Texture[] imgDuck = new Texture[55]; // ссылки на изображения
     Texture imgBackGround; // фоновое изображение
     Texture imgBtnExit;
     Texture imgBtnSndOn, imgBtnSndOff;
     //Texture imgBtnPause, imgBtnPlay;
 
-    Sound[] sndKomar = new Sound[2];
+    Sound[] sndDuck = new Sound[2];
     Music sndMusic;
 
     // логические переменные
@@ -29,7 +29,7 @@ public class ScreenGame implements Screen {
     boolean musicOn = true;
 
     // кнопки интерфейса игры
-    MosButton btnExit;
+    DuckButton btnExit;
 
     // создаём массив ссылок на объекты комаров
     Duck[] ducks = new Duck[10];
@@ -37,7 +37,6 @@ public class ScreenGame implements Screen {
 
     // переменные для работы с таймером
     long timeStartGame, timeCurrently;
-
     // состояния игры
     public static final int PLAY_GAME = 1, ENTER_NAME = 2, SHOW_TABLE = 3;
     int situation;
@@ -52,8 +51,8 @@ public class ScreenGame implements Screen {
         mgg = g;
 
         // загружаем картинки
-        for(int i=0; i<imgKomar.length; i++) {
-            imgKomar[i] = new Texture("Duck"+i+".png"); // создать объект-картинку и загрузить в него изображение
+        for(int i = 0; i< imgDuck.length; i++) {
+            imgDuck[i] = new Texture("Duck"+i+".png"); // создать объект-картинку и загрузить в него изображение
         }
         imgBackGround = new Texture("game.jpg");
         imgBtnExit = new Texture("exit.png");
@@ -61,15 +60,15 @@ public class ScreenGame implements Screen {
         imgBtnSndOff = new Texture("sndoff.png");
 
         // загружаем звуки
-        for(int i=0; i<sndKomar.length; i++) {
-            sndKomar[i] = Gdx.audio.newSound(Gdx.files.internal("krya"+i+".mp3"));
+        for(int i = 0; i< sndDuck.length; i++) {
+            sndDuck[i] = Gdx.audio.newSound(Gdx.files.internal("krya"+i+".mp3"));
         }
         sndMusic = Gdx.audio.newMusic(Gdx.files.internal("prud.mp3"));
         sndMusic.setLooping(true);
         sndMusic.setVolume(0.1f);
 
         // создаём кнопки
-        btnExit = new MosButton(SCR_WIDTH -60, SCR_HEIGHT -60, 50);
+        btnExit = new DuckButton(SCR_WIDTH -60, SCR_HEIGHT -60, 50);
 
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player("noname", 0);
@@ -93,7 +92,7 @@ public class ScreenGame implements Screen {
                     if (ducks[i].isAlive && ducks[i].hit(mgg.touch.x, mgg.touch.y)) {
                         kills++;
                         if (soundOn) {
-                            sndKomar[MathUtils.random(0, 1)].play();
+                            sndDuck[MathUtils.random(0, 1)].play();
                         }
                         if (kills == ducks.length) {
                             situation = ENTER_NAME;
@@ -110,7 +109,7 @@ public class ScreenGame implements Screen {
                 if(mgg.keyboard.endOfEdit()){
                     situation = SHOW_TABLE;
                     players[players.length-1].name = mgg.keyboard.getText();
-                    players[players.length-1].time = timeCurrently;
+                    players[players.length-1].time = kills;
                     sortTableOfRecords();
                     saveTableOfRecords();
                 }
@@ -136,7 +135,7 @@ public class ScreenGame implements Screen {
         mgg.batch.begin();
         mgg.batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
         for(int i = 0; i< ducks.length; i++) {
-            mgg.batch.draw(imgKomar[ducks[i].faza], ducks[i].x, ducks[i].y, ducks[i].width, ducks[i].height, 0, 0, 500, 500, ducks[i].isFlip(), !ducks[i].isAlive);
+            mgg.batch.draw(imgDuck[ducks[i].faza], ducks[i].x, ducks[i].y, ducks[i].width, ducks[i].height, 0, 0, 500, 500, ducks[i].isFlip(), !ducks[i].isAlive);
         }
         mgg.batch.draw(imgBtnExit, btnExit.x, btnExit.y, btnExit.width, btnExit.height);
 
@@ -147,7 +146,7 @@ public class ScreenGame implements Screen {
         }
         if(situation == SHOW_TABLE){
             for (int i = 0; i < players.length-1; i++) {
-                mgg.font.draw(mgg.batch, players[i].name+"...."+timeToString(players[i].time), SCR_WIDTH/3, SCR_HEIGHT*3/4-i*50);
+                mgg.font.draw(mgg.batch, players[i].name+"...."+kills, SCR_WIDTH/3, SCR_HEIGHT*3/4-i*50);
             }
         }
         mgg.batch.end();
@@ -246,11 +245,11 @@ public class ScreenGame implements Screen {
 
     @Override
     public void dispose() {
-        for (int i = 0; i < imgKomar.length; i++) {
-            imgKomar[i].dispose();
+        for (int i = 0; i < imgDuck.length; i++) {
+            imgDuck[i].dispose();
         }
-        for (int i = 0; i < sndKomar.length; i++) {
-            sndKomar[i].dispose();
+        for (int i = 0; i < sndDuck.length; i++) {
+            sndDuck[i].dispose();
         }
         imgBackGround.dispose();
         imgBtnExit.dispose();

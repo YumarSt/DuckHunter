@@ -45,7 +45,6 @@ public class MyGdxGame extends Game {
 		screenGame = new ScreenGame(this);
 		screenSettings = new ScreenSettings(this);
 		screenAbout = new ScreenAbout(this);
-
 		setScreen(screenIntro);
 	}
 

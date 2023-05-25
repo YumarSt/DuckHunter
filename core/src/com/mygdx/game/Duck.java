@@ -15,9 +15,9 @@ public class Duck {
     public Duck(){
         width = height = MathUtils.random(150, 300);
         x = SCR_WIDTH /2-width/2;
-        y = SCR_HEIGHT /2-height/2;
+        y = MathUtils.random(0, SCR_HEIGHT - height);
         vx = MathUtils.random(-8f, 8f);
-        vy = MathUtils.random(-5f, 5f);
+        vy = 0;
         faza = MathUtils.random(0, nFaz-1);
     }
 
@@ -25,7 +25,7 @@ public class Duck {
         x += vx;
         y += vy;
         if(isAlive) {
-            outBounds1();
+            outBounds2();
             if (++faza == nFaz) faza = 0;
         }
     }
