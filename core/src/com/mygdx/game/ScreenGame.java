@@ -112,7 +112,7 @@ public class ScreenGame implements Screen {
                 if(mgg.keyboard.endOfEdit()){
                     situation = SHOW_TABLE;
                     players[players.length-1].name = mgg.keyboard.getText();
-                    players[players.length-1].time = kills;
+                    players[players.length-1].time = timeCurrently;
                     sortTableOfRecords();
                     saveTableOfRecords();
                 }
@@ -149,7 +149,7 @@ public class ScreenGame implements Screen {
         }
         if(situation == SHOW_TABLE){
             for (int i = 0; i < players.length-1; i++) {
-                mgg.font.draw(mgg.batch, players[i].name+"...."+kills, SCR_WIDTH/3, SCR_HEIGHT*3/4-i*50);
+                mgg.font.draw(mgg.batch, players[i].name+"...."+timeToString(players[i].time), SCR_WIDTH/3, SCR_HEIGHT*3/4-i*50);
             }
         }
         mgg.batch.end();
